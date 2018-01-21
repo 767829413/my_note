@@ -1,0 +1,29 @@
+.div1{
+	border:1px black solid;
+	width:300px;
+	height:230px;
+}
+.div2{
+	font-size:20px;
+	color:black;
+/*	border:1px black solid;*/
+	position:absolute;
+	top:20px;
+	left:94.5px;
+}
+.div3{
+	font-size:10px;
+	color:black;
+	border:1px black solid;
+	position:absolute;
+	top:100px;
+	left:70px;
+}
+.div4{
+	font-size:19px;
+	color:black;
+/*	border:1px black solid;*/
+	position:absolute;
+	top:175px;
+	left:56px;
+}
