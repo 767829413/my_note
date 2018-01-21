@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta charset='utf-8'>
+  <title> 学生列表 </title>
+ </head>
+ <body>
+  <h1>学生列表</h1>
+  <table border='1px' width='800px'>
+  <tr>
+  <th>学生id</th>
+  <th>学生姓名</th>
+  <th>语文成绩</th>
+  <th>英语成绩</th>
+  <th>数学成绩</th>
+  <th>点击修改</th>
+  <th>点击删除</th>
+  </tr>
+  <!-- 遍历数组,显示学生信息-->
+ <?php
+  foreach($stu_list as $stu) : ?>
+  <tr>
+  <td><?php echo $stu['id']; ?></td>
+  <td><?php echo $stu['name']; ?></td>
+  <td><?php echo $stu['chinese']; ?></td>
+  <td><?php echo $stu['english']; ?></td>
+  <td><?php echo $stu['math']; ?></td>
+  <td><a href="../control/updateStuActionUI.php?id=<?php echo $stu['id'] ?>">点击修改</a></td>
+  <td><a href="../control/delStuAction.php?id=<?php echo $stu['id'] ?>">点击删除</a></td>
+  </tr>
+<?php endforeach; ?>
+  </table><br/>
+  <a href="../view/insertStuUI.html">添加学生</a>
+ </body>
+</html>
