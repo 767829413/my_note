@@ -1,0 +1,70 @@
+<!-->//添加单词 
+	if($type == "insert") {
+		//接收新的单词
+		$insert_word = $_REQUEST["engword"];
+		$insert_ch = $_REQUEST["ch"];
+		$read = new getDOM("../model/word.xml");
+		$words_en = $read->readNodeValue('en');
+		$words_ch = $read->readNodeValue('ch');
+		$flag = False;
+		//遍历
+		for($i=0;$i<count($words_en);$i++){
+		if($words_en[$i] == $query_word) {
+			$flag = true;
+			echo $words_en[$i]."的中文意思是".$words_ch[$i];
+		}
+		
+	}
+		if($flag) {
+			exit('该词条已经收录');
+		}else{
+			
+		}
+
+	echo "<br/><a href='../index.php'>返回主界面</a>";	
+		
+	}
+
+
+
+/*	$test = new getDOM("../model/word.xml");
+	$a = $test->readNodeValue('en');
+	$b = $test->readNodeValue('ch');
+//	echo "<pre>";
+//	var_dump($a,$b);
+	for($i=0;$i<count($a);$i++){
+		if($a[$i] == "school") {
+			echo $a[$i]."的中文意思是".$b[$i];
+		}
+	}*/
+
+
+		$test = new getDOM("../model/word.xml");
+	$test->insertWord("nice","好的,不错");
+	$a = $test->readNodeValue('en');
+	$b = $test->readNodeValue('ch');
+//	echo "<pre>";
+//	var_dump($a,$b);
+	for($i=0;$i<count($a);$i++){
+			echo $a[$i]."的中文意思是".$b[$i]."<br/>";		
+	}
+
+
+
+
+	$words_en = $read->readNodeValue('en');
+		$words_ch = $read->readNodeValue('ch');
+		$flag = False;
+		//遍历
+		for($i=0;$i<count($words_en);$i++){
+			if($words_en[$i] == $query_word) {
+			$flag = true;
+			echo $words_en[$i]."的中文意思是".$words_ch[$i];
+			break;
+			}
+		
+		}
+		if(!$flag) {
+			echo "该词条没有收入";
+		}
+		echo "<a href='../index.php'><br/>返回主界面</a>";
