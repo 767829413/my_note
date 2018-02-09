@@ -1,0 +1,343 @@
+ SQL语句：
+ //创建一个db1的数据库
+ CREATE DATABASE `db1`;
+ //创建一个db2的数据库，字符集是utf8
+ CREATE DATABASE `db2` charset utf8;
+ //创建一个mydb3的数据库，字符集是utf8，校对集是utf8_general_ci
+ CREATE DATABASE `mydb3` charset utf8 collate utf8_general_ci;
+
+//创建表时,需要根据保存的数据创建相应的列,并根据数据的类型定义相应的列表
+/*eg: user表 (快速入门案例)
+ 	id	整形
+	name	字符串
+	password 字符串
+	birthday 日期
+ */
+ create table `user` (
+  id int not null default 0 comment 'id号',
+  name varchar(32) not null default '' comment '名字',
+  password char(32) not null default '' comment '密码',
+  birthday date comment '生日'
+ )charset = utf8 collate = utf8_general_ci engine = MyISAM;
+
+/*
+ 数值类型的基本使用案例
+ */
+ create table `user2`(
+	name varchar(32) not null default '' comment '用户名',
+	age tinyint unsigned not null default 0 comment '年龄',
+	age1 tinyint not null default 0 comment '年龄'
+ )charset = utf8 engine = myisam;
+
+
+ create table test (
+	 num1 int,
+	 num2 int(4) zerofill, 
+	 num3 int(6) unsigned zerofill
+ );
+
+ create table user100 (
+	id int not null default 0 comment 'id号',
+	name varchar(32) not null default '' comment '姓名',
+	salary float(4,2) not null default 0.0 comment '薪水',
+	salary2 decimal(5,2) not null default 0.0 comment '薪水2'
+)charset utf8 collate utf8_general_ci engine myisam;
+
+
+//创建一张表
+create table `user300`(
+	id int unsigned not null default 0 comment 'id号',
+	name varchar(64) not null default '' comment '名字',
+	post_code char(6) not null default '' comment '邮编'
+)charset utf8 collate utf8_general_ci engine myisam;
+
+//添加数据
+insert into `user300` values(100,'泰牛','100089');
+
+//测试char 与varchar 范围
+create table `user600`(
+	id int unsigned not null default 0 comment 'id号',
+	name varchar(8) not null default '' comment '名字',
+	post_code char(255) not null default '' comment '邮编'
+)charset utf8 collate utf8_general_ci engine myisam;
+create table `user600`(
+	name varchar(21844) not null default '' comment '名字'
+)charset utf8 collate utf8_general_ci engine myisam;
+create table `user700`(
+	name varchar(21845) not null default '' comment '名字'
+)charset utf8 collate utf8_general_ci engine myisam;
+create table `user800`(
+	name varchar(21845) not null default '' comment '名字'
+)charset gbk engine myisam;
+create table `user900`(
+	name varchar(32766) not null default '' comment '名字'
+)charset gbk engine myisam;
+create table `user1000`(
+	name varchar(32767) not null default '' comment '名字'
+)charset gbk engine myisam;
+
+//char(n)与varchar(n)中n表示的意义
+create table `user901`(
+	name varchar(4) not null default '' comment '名字',
+	post char(4) not null default '' comment 'test'
+)charset utf8 engine myisam;
+
+insert into user901 values('abcd','abcd');
+insert into user901 values('北京你好','上海你好');
+
+create table `user910`(
+	name varchar(5) not null default '',
+	post char(12) not null default ''
+)charset utf8 engine myisam;
+
+insert into user901 values('abcd','abcd');
+insert into user901 values('北京你好','上海你好');
+
+create table `user902`(
+	name varchar(32) not null default '' comment '名字',
+	post char(32) not null default '' comment 'test'
+)charset utf8 engine myisam;
+
+
+insert into user902 values('abcd ','abcd ');
+
+create table `user903`(
+	id int comment 'id号',
+	name varchar(32) not null default '' comment '名字',
+	content text not null comment '内容'
+)charset utf8 engine myisam;
+
+create table `user904`(
+	id int comment 'id号',
+	name varchar(21844) not null default '' comment '名字'
+)charset utf8 engine myisam;
+//上面的所有字段加起来超过了65535 < 21844*3+3+4 = 65539
+
+create table `user905`(
+	id mediumint comment 'id号',
+	name varchar(21843) not null default '' comment '名字'
+)charset utf8 engine myisam;
+//上面字段加起来不超过65535
+
+create table `user906`(
+	id mediumint comment 'id号',
+	name varchar(20000) not null default '' comment '名字',
+	content text not null,
+	introduce text not null
+)charset utf8 engine myisam;
+
+
+//--日期和时间类型
+create table `user908` (
+id int,
+birthday date,
+card_time datetime,
+login_time timestamp
+)charset utf8 collate utf8_general_ci engine myisam;
+
+insert into `user908` values(
+100,'2011-11-11','2011-11-11 11:11:11','2011-12-12 12:12:12'
+);
+
+insert into `user908` values(
+100,'2011-11-11 13:13:13','2011-11-11','2011-12-12'
+);
+
+insert into `user908`(id,birthday,card_time) values(
+300,'2011-11-11','2011-11-11 06:06:06'
+);
+
+update user908 set birthday = '2018-1-7' where id = 300;
+
+
+//统计表--->枚举enum 与 集合set的使用
+
+create table `votes`(
+id int unsigned not null default 1,
+hobby set('苹果','西瓜','菠萝') not null default '苹果' comment '爱好',
+sex enum('男','女','保密') not null default '保密' comment '性别'
+)charset utf8 collate utf8_general_ci engine myisam;
+
+insert into `votes` values(100,'西瓜','男');
+insert into `votes` values(200,'苹果,西瓜','男');
+insert into `votes` values(300,'菠萝,西瓜',1);
+insert into `votes` values(400,'苹果,菠萝',3);
+insert into `votes` values(500,1,2);
+insert into `votes` values(500,2,2);
+
+
+//查询上表中喜欢吃苹果的人
+//find_in_set('苹果',hobby) 表示在hobby这个字段去查询有没有苹果
+//该函数返回的值就是苹果在hobby这个字段的第几个位置
+//如果没有则返回0
+select * from votes where find_in_set(‘苹果’,hobby);
+
+//修改表的操作
+//1.在employ表中添加一个image列(在resume后面)
+alter table employ add 
+image varchar(64) not null default '' after resume;
+//修改job列,使其长度为60
+alter table employ modify job varchar(60) not null default '' comment '职业';
+//3.删除sex列
+alter table employ drop 
+sex;
+//修改表明为worker
+rename table employ to worker;
+//修改表的字符集
+alter table `worker` charset utf8;
+//将name列名改为user_name
+alter table `worker` change 
+name user_name varchar(64) not null default '' comment '姓名';
+//创建一个商品清单,添加数据
+create table goods_list (
+id int unsigned not null default 1 comment '商品id号',
+goods_name varchar(32) not null default '' comment '商品名称',
+goods_price decimal(15,3) unsigned not null default 0.000 comment '商品价格'
+)charset utf8 collate utf8_general_ci engine myisam;
+//插入两条数据
+insert into goods_list(id,goods_name,goods_price) values(
+1,'笔记本电脑',9999.000);
+insert into goods_list(id,goods_name,goods_price) values(
+2,'华硕gtx1080',4999.000);
+
+
+
+select ename,sal as '调整前薪水',
+(case
+when sal<=500 then sal*1.2 
+when sal>500 and sal<=1000 then sal*1.1 
+when sal>100 and sal<=2000 then sal*1.05 
+else sal 
+end) as '薪水调整' 
+from emp;
+
+
+
+#主键约束的案例
+create table `user11`(
+id int primary key,/*主键约束*/
+name varchar(32) not null default '', 
+email varchar(32) not null default ''
+)charset utf8 engine myisam;
+
+/*主键不可以重复*/
+insert into `user11` values(1,'aaa','aaa@sohu.com');
+insert into `user11` values(1,'bbb','bbb@sohu.com');
+
+/*主键不可以给null值*/
+insert into `user11` values
+(null,'ccc','ccc@qq.com');
+
+/*一张表只能有一个主键,但可以是复合主键*/
+create table `user12`(
+id int primary key,	/*主键约束*/
+id2 int primary key,
+name varchar(32) not null default '', /*主键约束*/
+email varchar(32) not null default ''
+)charset utf8 engine myisam;
+
+/**/
+create table `user12`(
+`id` int,	
+`name` varchar(32) not null default '', /*主键约束*/
+`email` varchar(32) not null default '',
+primary key (`id`)	
+)charset utf8 engine myisam;
+
+
+insert into `user12` values(1,'bbb','bbb@sohu.com');
+insert into `user12` values(1,'bbb','bbb@sohu.com');
+/*复合主键中只有设置的主键字段与表中某一条全部相同,才会报错*/
+insert into `user12` values(1,'aaa','aaa@sohu.com');
+/*复合主键只要有一个字段为null,任然报错*/
+insert into `user12` values(null,'bbb','bbb@sohu.com');
+
+
+
+create table `user14`(
+`id` int,	
+`name` varchar(32) not null default '', 
+`email` varchar(32) not null unique default '',
+primary key (`id`)	
+)charset utf8 engine myisam;
+
+insert into `user14` values(1,'aaa','bbb@sohu.com');
+insert into `user14` values(2,'bbb','bbb@sohu.com');
+insert into `user14` values(2,'bbb',null);
+
+
+
+create table `user16`(
+`id` int,	
+`name` varchar(32) not null default '', 
+`email` varchar(32) unique default '',/*电子邮件不可重复*/
+primary key (`id`)	
+)charset utf8 engine myisam;
+
+
+
+/*班级表---主表*/
+create table `my_class` (
+class_id int primary key,
+class_name varchar(64) not null unique,
+class_intro text not null
+)charset=utf8 engine innodb;
+/*学生表---从表*/
+create table `stu`(
+`id` int primary key,
+`name` varchar(32) not null default '',
+`class_id` int ,
+/*定义外键*/
+foreign key (`class_id`) references `my_class`(class_id)
+)charset utf8 engine innodb;
+
+insert into my_class values(1,'自学班1期','非常努力哟');
+insert into my_class values(2,'自学班2期','非常努力啊');
+insert into stu values(100,'张三',1);
+insert into stu values(101,'王五',1);
+insert into stu values(102,'赵六',1);
+
+
+
+/*******************************/
+/*商品表*/
+create table `goods` (
+`goods_id` int unsigned primary key,
+`goods_name` varchar(32) not null default '',
+/*商品单价*/
+`unitprice` decimal(7,2) unsigned not null check(unitprice>1.0 and unitprice<9999.99),
+`category` smallint unsigned not null default 0,
+`provider` varchar(32) not null default ''
+)charset utf8 engine innodb;
+
+/*顾客表*/
+create table `customer` (
+`customer_id` int unsigned primary key,
+`name` varchar(20) not null default '',
+`address` varchar(64) not null default '',
+`email` varchar(64) not null unique,
+`sex` enum('男','女') not null default '男',
+`card_id` char(18) not null unique
+)charset utf8 engine innodb;
+
+/*购买订单表*/
+create table `purchase` (
+/*订单id*/
+`order_id` int unsigned primary key,
+`customer_id` int unsigned,
+`goods_id` int unsigned,
+`nums` int unsigned not null default 0,
+/*定义外键约束*/
+foreign key (`goods_id`) references `goods`(`goods_id`),
+foreign key (`customer_id`) references `customer`(`customer_id`)
+)charset utf8 engine innodb;
+
+
+/*对表的约束进行管理---增删改查*/
+create table customer2 (
+`customer_id` char(8) not null default '',
+`name` varchar(20),
+`address` varchar(30) not null default '',
+`email` varchar(30),
+`sex` enum('男','女') not null
+);
